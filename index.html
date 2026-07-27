@@ -3,35 +3,37 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Our Sunrise Book ❤️ — Yasin & Kotha</title>
-    <meta name="description" content="A new beginning for Yasin & Kotha. Our Sunrise Book." />
+    <title>Heart Garden ❤️ — Yasin & kotha</title>
+    <meta name="description" content="A soft, calming space for my Bow. Heart Garden." />
     <meta name="theme-color" content="#FDFBF7" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="robots" content="noindex, nofollow" />
 
     <style>
         :root {
-            --bg-primary: #FDFBF7;
-            --bg-secondary: #FFF5EE;
+            --bg-start: #FFF0F5;       /* Soft Peach */
+            --bg-end: #E6E6FA;         /* Soft Lavender */
             --bg-card: #FFFFFF;
             --text-primary: #2D2A3A;
             --text-secondary: #5A5670;
             --text-muted: #9A96B0;
-            --accent-sky: #7EC8E3;
             --accent-pink: #F5A0B5;
+            --accent-sky: #7EC8E3;
             --shadow-card: 0 4px 20px rgba(0,0,0,0.04);
             --shadow-hover: 0 8px 30px rgba(0,0,0,0.08);
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
             height: 100%;
             overflow: hidden;
-            font-family: 'Georgia', 'Times New Roman', 'Segoe UI', serif;
-            background: var(--bg-primary);
+            font-family: 'Segoe UI', 'Helvetica Neue', -apple-system, sans-serif;
+            background: linear-gradient(145deg, var(--bg-start), var(--bg-end));
+            background-attachment: fixed;
         }
         body {
             color: var(--text-primary);
-            line-height: 1.8;
+            line-height: 1.6;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -41,7 +43,7 @@
         #loading-screen {
             position: fixed; inset: 0; z-index: 99999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: var(--bg-primary);
+            background: #FFF0F5;
             transition: opacity 0.6s ease, visibility 0.6s ease;
         }
         #loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
@@ -57,7 +59,7 @@
         #password-page {
             position: fixed; inset: 0; z-index: 9999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: rgba(253, 251, 247, 0.96);
+            background: rgba(255, 240, 245, 0.96);
             backdrop-filter: blur(6px);
             transition: opacity 0.8s ease, visibility 0.8s ease;
             padding: 20px;
@@ -66,15 +68,56 @@
         #password-page .lock-icon { font-size: 3.5rem; margin-bottom: 10px; animation: float 3s ease-in-out infinite; }
         #password-page h1 { font-size: 2rem; font-weight: 300; color: var(--text-primary); text-align: center; }
         #password-page .subtitle { font-size: 1rem; color: var(--text-secondary); margin-bottom: 30px; text-align: center; }
-        #password-page .input-group { display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 320px; }
-        #password-page input {
-            width: 100%; padding: 16px 20px; min-height: 54px; border-radius: 50px;
-            border: 1px solid var(--accent-sky); background: rgba(255,255,255,0.7);
-            color: var(--text-primary); font-size: 1rem; outline: none; text-align: center;
-            transition: all 0.3s ease;
+        
+        /* Password Input Group with Toggle */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            max-width: 320px;
         }
-        #password-page input:focus { border-color: var(--accent-pink); box-shadow: 0 0 20px rgba(245, 160, 181, 0.2); }
-        #password-page .error-msg { color: var(--accent-pink); font-size: 0.9rem; min-height: 28px; font-weight: 300; }
+        .input-row {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--accent-sky);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            padding-right: 4px;
+        }
+        .input-row:focus-within { border-color: var(--accent-pink); box-shadow: 0 0 20px rgba(245, 160, 181, 0.2); }
+        .input-row input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 16px 20px;
+            min-height: 54px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            text-align: center;
+        }
+        .toggle-pass-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            min-height: 44px;
+            min-width: 44px;
+            color: var(--text-secondary);
+            transition: transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toggle-pass-btn:hover { transform: scale(1.1); }
+
+        #password-page .error-msg { color: var(--accent-pink); font-size: 0.9rem; min-height: 28px; font-weight: 300; margin-top: -6px; }
         #password-page .unlock-btn {
             padding: 16px 40px; min-height: 54px; border-radius: 50px; border: none;
             background: linear-gradient(135deg, var(--accent-sky), var(--accent-pink));
@@ -84,222 +127,221 @@
         }
         @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* Book Container */
-        #book-container {
+        /* Main Container */
+        #app-container {
             position: relative;
             width: 100%;
             height: 100vh;
             overflow: hidden;
-            display: none; /* initially hidden until unlocked */
+            display: none;
             flex-direction: column;
         }
+
         .page {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 80px 20px 20px;
+            padding: 60px 20px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: var(--bg-primary);
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
-            transform: translateX(100%);
+            background: transparent;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+            transform: translateY(100%);
             opacity: 0;
             pointer-events: none;
             overflow-y: auto;
         }
+
         .page.active {
-            transform: translateX(0);
+            transform: translateY(0);
             opacity: 1;
             pointer-events: auto;
         }
+
         .page.prev {
-            transform: translateX(-30%);
-            opacity: 0.3;
+            transform: translateY(-30%);
+            opacity: 0.2;
             pointer-events: none;
         }
-        .page::-webkit-scrollbar { width: 4px; }
-        .page::-webkit-scrollbar-track { background: transparent; }
-        .page::-webkit-scrollbar-thumb { background: var(--accent-pink); border-radius: 10px; }
 
-        /* Page Content */
-        .page-title {
-            font-size: 2.2rem; font-weight: 300; color: var(--text-primary);
-            font-family: 'Georgia', serif; margin-bottom: 20px; text-align: center;
-        }
-        .page-title .accent { color: var(--accent-pink); }
-        .chapter-card {
+        /* Question Page Styles */
+        .q-container {
             background: var(--bg-card);
-            border-radius: 24px;
-            padding: 30px 28px;
+            border-radius: 32px;
+            padding: 40px 28px;
             box-shadow: var(--shadow-card);
-            width: 100%; max-width: 700px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(0,0,0,0.02);
-            overflow-y: auto;
-            max-height: 60vh;
-        }
-
-        /* Cover */
-        #page-cover {
-            background: linear-gradient(145deg, var(--bg-primary), #FFF5EE);
-            justify-content: center;
+            width: 100%;
+            max-width: 600px;
             text-align: center;
         }
-        #page-cover .cover-title {
-            font-size: 3.2rem; font-weight: 200; color: var(--text-primary);
-            font-family: 'Georgia', serif; letter-spacing: 1px;
-        }
-        #page-cover .cover-title .name { color: var(--accent-pink); font-weight: 300; }
-        #page-cover .cover-sub { font-size: 1.1rem; color: var(--text-secondary); font-style: italic; margin-top: 6px; }
-        #page-cover .cover-btn {
-            padding: 16px 48px; border-radius: 60px; border: none;
-            background: linear-gradient(135deg, var(--accent-sky), var(--accent-pink));
-            color: white; font-size: 1.1rem; font-weight: 400; cursor: pointer;
-            transition: all 0.3s ease; box-shadow: 0 4px 30px rgba(126, 200, 227, 0.25);
-            margin-top: 20px;
-        }
-        #page-cover .cover-btn:hover { transform: scale(1.03); }
 
-        /* Story */
-        .story-item { padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
-        .story-item:last-child { border-bottom: none; }
-        .story-item .date { font-size: 0.8rem; color: var(--accent-pink); font-weight: 400; }
-        .story-item h4 { font-size: 1.1rem; font-weight: 400; margin: 4px 0; }
-        .story-item p { color: var(--text-secondary); font-weight: 300; }
+        .q-number {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
 
-        /* Favorites */
-        .fav-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 16px; width: 100%;
+        .q-text {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-family: 'Georgia', serif;
         }
-        .fav-item {
-            background: var(--bg-card); border-radius: 16px; padding: 18px 12px;
-            text-align: center; box-shadow: var(--shadow-card);
-        }
-        .fav-item .emoji-icon { font-size: 2rem; display: block; margin-bottom: 6px; }
-        .fav-item .label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        .fav-item .value { font-size: 1rem; font-weight: 300; color: var(--text-primary); }
 
-        /* Gallery */
-        .photo-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px; width: 100%; max-width: 600px;
+        .q-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
         }
-        .photo-frame {
-            aspect-ratio: 1 / 1; background: var(--bg-card); border-radius: 16px;
-            border: 2px dashed #d0d0d0; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; color: var(--text-muted);
-            font-size: 0.85rem; font-weight: 300; transition: 0.3s; cursor: pointer;
-            box-shadow: var(--shadow-card); position: relative; overflow: hidden;
-        }
-        .photo-frame .placeholder-icon { font-size: 2.4rem; opacity: 0.4; }
-        .photo-frame .caption { font-size: 0.9rem; color: var(--text-primary); margin-top: 6px; font-weight: 400; }
-        .photo-frame:hover { border-color: var(--accent-pink); transform: scale(1.02); }
-        .photo-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; position: absolute; top:0; left:0; }
 
-        /* Confusion Page */
-        #page-confusion { text-align: center; }
-        #page-confusion .question-text { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 30px; }
-        .confusion-buttons {
-            display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
-        }
-        .confusion-btn {
-            padding: 14px 40px; min-height: 54px; border-radius: 60px; border: none;
-            font-size: 1.1rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease;
-            background: var(--bg-card); box-shadow: var(--shadow-card); color: var(--text-primary);
+        .q-btn {
+            padding: 14px 32px;
+            min-height: 54px;
+            border-radius: 60px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--bg-card);
+            box-shadow: var(--shadow-card);
+            color: var(--text-primary);
+            flex: 1;
             min-width: 120px;
         }
-        .confusion-btn:hover { transform: scale(1.05); box-shadow: var(--shadow-hover); }
-        .confusion-btn.ki { background: linear-gradient(135deg, var(--accent-sky), var(--accent-pink)); color: white; }
-        .confusion-btn.ignore { border: 1px solid var(--text-muted); background: transparent; }
-        .confusion-result {
-            margin-top: 30px; font-size: 1.2rem; font-weight: 300; color: var(--text-primary);
-            min-height: 3rem; opacity: 0; transition: opacity 0.6s ease;
+
+        .q-btn:hover { transform: scale(1.03); box-shadow: var(--shadow-hover); }
+        .q-btn.option-a { background: linear-gradient(135deg, var(--accent-sky), #B0E0E6); color: white; }
+        .q-btn.option-b { background: linear-gradient(135deg, var(--accent-pink), #FFD1DC); color: white; }
+
+        /* Photo Album Page */
+        #page-album {
+            padding: 60px 20px 40px;
+            justify-content: flex-start;
+            padding-top: 80px;
         }
-        .confusion-result.show { opacity: 1; }
 
-        /* Countdown */
-        .countdown-display { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin: 20px 0; }
-        .cd-item { background: var(--bg-card); border-radius: 16px; padding: 14px 20px; min-width: 70px; box-shadow: var(--shadow-card); text-align: center; }
-        .cd-item .num { font-size: 2.2rem; font-weight: 300; color: var(--text-primary); display: block; }
-        .cd-item .label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
-
-        /* Sorry Page */
-        .sorry-text { font-size: 1.1rem; line-height: 2; color: var(--text-secondary); text-align: center; max-width: 500px; }
-        .sorry-reason { font-weight: 400; color: var(--text-primary); margin-top: 8px; font-size: 1.2rem; }
-        .sorry-buttons { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-top: 30px; }
-        .sorry-btn { padding: 14px 40px; min-height: 54px; border-radius: 60px; border: none; font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
-        .sorry-btn.accept { background: linear-gradient(135deg, var(--accent-sky), var(--accent-pink)); color: white; box-shadow: 0 4px 20px rgba(126,200,227,0.3); }
-        .sorry-btn.accept:hover { transform: scale(1.05); }
-        .sorry-btn.decline { background: transparent; border: 1px solid var(--text-muted); color: var(--text-secondary); }
-        .sorry-btn.decline:hover { border-color: var(--text-primary); color: var(--text-primary); }
-        .sorry-result { margin-top: 20px; font-size: 1.2rem; font-weight: 300; min-height: 2.4rem; color: var(--text-primary); }
-
-        /* Final */
-        #page-final { text-align: center; justify-content: center; gap: 16px; }
-        #page-final .final-title { font-size: 2.6rem; font-weight: 200; color: var(--text-primary); font-family: 'Georgia', serif; }
-        #page-final .final-text { font-size: 1.1rem; font-weight: 300; color: var(--text-secondary); max-width: 500px; line-height: 2; }
-        #page-final .final-sign { font-size: 1.1rem; font-weight: 300; color: var(--text-primary); margin-top: 20px; font-style: italic; }
-
-        /* Page Navigation */
-        #page-nav {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 800; display: flex; gap: 20px;
-            background: rgba(255,255,255,0.9); backdrop-filter: blur(12px);
-            padding: 10px 20px; border-radius: 60px;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.06);
-            border: 1px solid rgba(0,0,0,0.03); align-items: center;
+        .album-title {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Georgia', serif;
         }
-        #page-nav button {
-            background: none; border: none; font-size: 1.2rem; font-weight: 300; color: var(--text-primary);
-            padding: 8px 16px; min-height: 44px; min-width: 44px; cursor: pointer; transition: 0.2s; border-radius: 40px;
-            display: flex; align-items: center; gap: 6px;
+
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            width: 100%;
+            max-width: 600px;
         }
-        #page-nav button:hover { background: var(--accent-sky); color: white; }
-        #page-nav button:disabled { opacity: 0.3; pointer-events: none; }
-        #page-nav .page-indicator { font-size: 0.8rem; color: var(--text-muted); min-width: 50px; text-align: center; }
+
+        .album-frame {
+            aspect-ratio: 1 / 1;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 2px dashed #d0d0d0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 300;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+        }
+        .album-frame .caption {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin-top: 6px;
+            z-index: 1;
+        }
+        .album-frame:hover { border-color: var(--accent-pink); transform: scale(1.02); }
+        .album-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 18px; position: absolute; top:0; left:0; }
+
+        /* Final Page */
+        #page-final {
+            justify-content: center;
+            text-align: center;
+            gap: 20px;
+        }
+
+        .final-title {
+            font-size: 2.4rem;
+            font-weight: 200;
+            color: var(--text-primary);
+            font-family: 'Georgia', serif;
+        }
+
+        .final-text {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 500px;
+            line-height: 2;
+        }
+
+        .final-sign {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            font-style: italic;
+            margin-top: 10px;
+        }
 
         /* Music Player */
-        #music-player {
-            position: fixed; top: 20px; right: 20px; z-index: 900;
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px);
-            border-radius: 60px; padding: 6px 14px 6px 18px;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.06);
-            display: flex; align-items: center; gap: 10px; transition: 0.3s; cursor: pointer;
-            border: 1px solid rgba(0,0,0,0.03);
+        .music-wrapper {
+            background: var(--bg-card);
+            border-radius: 60px;
+            padding: 8px 16px 8px 20px;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 300px;
+            width: 100%;
+            margin: 10px auto;
         }
-        #music-player:hover { transform: translateY(-4px); box-shadow: 0 8px 40px rgba(0,0,0,0.08); }
-        #music-player .icon { font-size: 1.1rem; }
-        #music-player .info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-        #music-player .info .title { font-size: 0.7rem; font-weight: 400; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        #music-player .info .status { font-size: 0.55rem; color: var(--text-muted); font-weight: 300; }
-        #music-player .play-btn { background: none; border: none; font-size: 1.3rem; color: var(--text-primary); cursor: pointer; padding: 4px; min-height: 40px; min-width: 40px; }
-        #music-player input[type="file"] { display: none; }
+
+        .music-wrapper .icon { font-size: 1.2rem; }
+        .music-wrapper .info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+        .music-wrapper .info .title { font-size: 0.75rem; font-weight: 400; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .music-wrapper .info .status { font-size: 0.6rem; color: var(--text-muted); font-weight: 300; }
+        .music-wrapper .play-btn { background: none; border: none; font-size: 1.3rem; color: var(--text-primary); cursor: pointer; padding: 4px; min-height: 40px; min-width: 40px; }
+        .music-wrapper input[type="file"] { display: none; }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            #page-cover .cover-title { font-size: 2.4rem; }
-            .page-title { font-size: 1.8rem; }
-            .photo-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
-            .fav-grid { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
-            #page-nav { padding: 8px 16px; gap: 12px; bottom: 12px; }
-            #page-nav button { font-size: 1rem; padding: 6px 12px; min-height: 40px; min-width: 40px; }
-            #music-player { top: 12px; right: 12px; padding: 4px 10px 4px 14px; }
+        @media (max-width: 600px) {
+            .q-text { font-size: 1.2rem; }
+            .q-btn { padding: 12px 24px; min-height: 48px; font-size: 0.95rem; min-width: 100px; }
+            .album-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+            .final-title { font-size: 2rem; }
+            .page { padding: 40px 16px 16px; }
         }
-        @media (max-width: 480px) {
-            #page-cover .cover-title { font-size: 1.8rem; }
-            .page-title { font-size: 1.4rem; }
-            .chapter-card { padding: 20px 16px; }
-            .cd-item .num { font-size: 1.8rem; }
-            .sorry-btn { padding: 12px 28px; }
-            #page-nav { padding: 6px 12px; gap: 8px; bottom: 8px; }
-            #page-nav button { font-size: 0.9rem; padding: 4px 10px; min-height: 36px; min-width: 36px; }
-            .confusion-btn { padding: 12px 28px; min-width: 100px; }
+
+        @media (max-width: 400px) {
+            .q-text { font-size: 1.1rem; }
+            .q-btn { padding: 10px 18px; min-height: 44px; font-size: 0.9rem; min-width: 80px; }
+            .album-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+            .q-options { gap: 10px; }
         }
+
         .unlock-burst { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10000; background: radial-gradient(circle, rgba(126, 200, 227, 0.3), transparent 70%); animation: burstFade 1.2s ease forwards; }
         @keyframes burstFade { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(2); } }
     </style>
@@ -309,204 +351,168 @@
     <!-- LOADING SCREEN -->
     <div id="loading-screen">
         <div class="loader"></div>
-        <p>Opening Our Sunrise Book ❤️</p>
+        <p>Opening Heart Garden ❤️</p>
     </div>
 
     <!-- PASSWORD PAGE -->
     <div id="password-page">
         <div class="lock-icon">🔐</div>
-        <h1>Secret For My Bow ❤️</h1>
-        <p class="subtitle">This book is only for the one who owns my heart.</p>
+        <h1>Heart Garden ❤️</h1>
+        <p class="subtitle">Only for my Bow, my everything.</p>
         <div class="input-group">
-            <input type="password" id="password-input" placeholder="Enter the password…" autocomplete="off" />
+            <div class="input-row">
+                <input type="password" id="password-input" placeholder="Enter the password…" autocomplete="off" />
+                <button class="toggle-pass-btn" id="toggle-pass" type="button" aria-label="Toggle password visibility">👁️</button>
+            </div>
             <button class="unlock-btn" id="unlock-btn">Unlock</button>
             <div class="error-msg" id="error-msg"></div>
         </div>
     </div>
 
-    <!-- BOOK CONTAINER (hidden until unlock) -->
-    <div id="book-container">
-        <!-- Pages (same as before) -->
-        <div class="page active" id="page-cover">
-            <h1 class="cover-title">Our <span class="name">Sunrise</span> Book</h1>
-            <p class="cover-sub">A new beginning for Yasin &amp; Kotha</p>
-            <button class="cover-btn" id="open-book-btn">📖 Open the Book</button>
-        </div>
+    <!-- APP CONTAINER -->
+    <div id="app-container">
 
-        <div class="page" id="page-story">
-            <h2 class="page-title">Our <span class="accent">Story</span></h2>
-            <div class="chapter-card">
-                <div class="story-item"><span class="date">The Beginning</span><h4>First Message</h4><p>It all started with a message… and then a block. 😅 But love had other plans.</p></div>
-                <div class="story-item"><span class="date">The Turn</span><h4>Everything Changed</h4><p>What started as a block turned into something we never expected – two hearts in sync.</p></div>
-                <div class="story-item"><span class="date">1 Hour 57 Minutes</span><h4>First Call</h4><p>That call – it felt like we had known each other for lifetimes. Time just disappeared.</p></div>
-                <div class="story-item"><span class="date">25 April 2025</span><h4>Our Relationship</h4><p>On 25 April 2025, we became ours. A date forever etched in our hearts.</p></div>
-                <div class="story-item"><span class="date">Anniversary ❤️</span><h4>25 April – Forever</h4><p>Every 25 April, we celebrate the love we share and the future we build together.</p></div>
-                <div class="story-item"><span class="date">2027</span><h4>A Dream to Meet</h4><p>In 2027, Insha'Allah, we'll finally meet. No more screens – just two souls embracing.</p></div>
-            </div>
-        </div>
-
-        <div class="page" id="page-letter">
-            <h2 class="page-title">A Letter for <span class="accent">You</span></h2>
-            <div class="chapter-card" style="white-space: pre-wrap; line-height: 2.2; font-family: 'Georgia', serif; color: var(--text-secondary);">
-                My dearest <span style="color:var(--accent-pink);">Bow</span>,
-
-                Bow bole call kori , tmr upore enough trust ase je akdin tmi amr bow hoba . R biyer age porjon pase thakba bby .  .
-                <span style="color:var(--accent-pink);">Bow Pakhi</span>, ei dakta onk soft mayabi pakhí but sate jokon bow add hoye bow pakhi hoy just wow . love u bow pakhi .
-                <span style="color:var(--accent-pink);">Bow Sundoriii</span>, ami sob  name er agei bow add kori cz amr kase bolte sob theke ador er dak mone hoy R tmi jei sundori, bow .ami eita niya confused je amke tmr kmne pocondo holo btw pocondo jkn korco R chairo na tmr oi sundorje amke kache theke dekhar chance diyo sundoriiiii
-                <span style="color:var(--accent-pink);">Bby</span>, <span style="color:var(--accent-pink);">Jan</span>, <span style="color:var(--accent-pink);">Kolixa</span> – Amr bow jan kolixa bby pakhi sob ei tmi . tmi amr life a akmatro person jar sate ami sob theke besi comfortable feel kori 
-                <span style="color:var(--accent-pink);">sorry</span>, <span style="color:var(--accent-pink);">Romance er modde aktu waz </span> – Bby tmr sate ami sob theke besi safe sob theke besi comfortable feel kori . amr mood situation sob boli but tmr akta bad habit holo tmi tmr mood ba moner obosta bujte dew na amke . Plz bby amn koiro na R . tmr mone hoy ami kos2 pabo but amn kicui na bby . ami aro khusi hobo je amr vul hoice tmi thik kore diso ate nxt a sm vul hbe na R amr bow r sm kos2 pabe na amr theke .
-
-                
-        
-
-                <div style="margin-top:28px; text-align:right; font-style:italic; color:var(--text-primary);">
-                    Love you Bow ❤️<br>
-                     yours future husband,<br>
-                    Yasin
+        <!-- PAGE 1 -->
+        <div class="page active" id="q1">
+            <div class="q-container">
+                <div class="q-number">Question 1</div>
+                <div class="q-text">Hey Bow, I was just thinking about you. How is your day going? I hope it's as beautiful as you are.</div>
+                <div class="q-options">
+                    <button class="q-btn option-a" data-next="q2">It's going well</button>
+                    <button class="q-btn option-b" data-next="q2">I'm thinking of you too</button>
                 </div>
             </div>
         </div>
 
-        <div class="page" id="page-favorites">
-            <h2 class="page-title">Her <span class="accent">Favorites</span></h2>
-            <div class="fav-grid">
-                <div class="fav-item"><span class="emoji-icon">🎨</span><span class="label">Color</span><div class="value">Sky Blue 💙<br>Black 🖤</div></div>
-                <div class="fav-item"><span class="emoji-icon">🌹</span><span class="label">Flower</span><div class="value">Kat Golap (Thorned Rose)</div></div>
-                <div class="fav-item"><span class="emoji-icon">🎵</span><span class="label">Songs</span><div class="value">Blue (Eng)<br>60s Love (Beng)</div></div>
-                <div class="fav-item"><span class="emoji-icon">🍔</span><span class="label">Food</span><div class="value">Burger &amp; Ice-cream 🍦</div></div>
-                <div class="fav-item"><span class="emoji-icon">💬</span><span class="label">Emojis</span><div class="value" style="font-size:1.4rem;">😼 🫠 🌚 💗</div></div>
-            </div>
-        </div>
-
-        <div class="page" id="page-gallery">
-            <h2 class="page-title">Our <span class="accent">Gallery</span></h2>
-            <p style="color:var(--text-secondary); font-weight:300; margin-bottom:20px; text-align:center;">Tap any frame to upload your photo ❤️</p>
-            <div class="photo-grid">
-                <div class="photo-frame" data-caption="Bow Sundori"><span class="placeholder-icon">📸</span><span class="caption">Bow Sundori</span></div>
-                <div class="photo-frame" data-caption="Bbyy"><span class="placeholder-icon">📸</span><span class="caption">Bbyy</span></div>
-                <div class="photo-frame" data-caption="My henaaa"><span class="placeholder-icon">📸</span><span class="caption">My henaaa</span></div>
-                <div class="photo-frame" data-caption="Sxy Bow"><span class="placeholder-icon">📸</span><span class="caption">Sxy Bow</span></div>
-            </div>
-        </div>
-
-        <div class="page" id="page-confusion">
-            <h2 class="page-title">Bbyy tmr akta <span class="accent">confusion</span></h2>
-            <p class="question-text">sunte chaw bby </p>
-            <div class="confusion-buttons">
-                <button class="confusion-btn ki" id="confusion-ki">Ki</button>
-                <button class="confusion-btn ignore" id="confusion-ignore">Ignore</button>
-            </div>
-            <div class="confusion-result" id="confusion-result">
-                <p style="line-height: 2.3; max-width: 600px; margin: 0 auto;">
-                    "
-Bbyh tmi Mone koro porn dekle onno bedi amr
-imagination a ase. Are bby tmi jei kora.
-Tmre mind theke soraite parle to onno bedi asbe.
-Bola thik na but  Sasuri maybe unar prime a onk hot chilo 🙏🏻.
-R uni ei to dwonload dise tmre tai tmk 10/1.
-12year a ei figure akhn oto prime time ase nai bby 🌚.
-p
-Perfaction kake bole jani na but tmi amr jonni perfect Bow .
-Ki bolbo tmi dektei amn je deklei hrny 💦hoye jai.
-Love you bby and also fuck you 🙂.
-Bow sundori tmi amr dekha sob theke sundor mayabi meye tmi . 
-life er first love tmi tmke kei last hisebe chai bby . 
-
-
-❤️" 
-
-
-
-
-      
-            
-               
-                </p>
-            </div>
-        </div>
-
-           
-           
-           
-        <div class="page" id="page-countdown">
-            <h2 class="page-title">Until I Finally Meet My <span class="accent">Bow</span> ❤️</h2>
-            <div class="countdown-display">
-                <div class="cd-item"><span class="num" id="cd-days">00</span><span class="label">Days</span></div>
-                <div class="cd-item"><span class="num" id="cd-hours">00</span><span class="label">Hours</span></div>
-                <div class="cd-item"><span class="num" id="cd-minutes">00</span><span class="label">Minutes</span></div>
-                <div class="cd-item"><span class="num" id="cd-seconds">00</span><span class="label">Seconds</span></div>
-            </div>
-            <p style="color:var(--text-secondary); font-weight:300; margin-top:12px;">Insha'Allah 2027</p>
-        </div>
-
-        <div class="page" id="page-sorry">
-            <h2 class="page-title">From the <span class="accent">Heart</span></h2>
-            <div class="chapter-card" id="sorry-card">
-                <div class="sorry-text">
-                    <p>Bow, I am truly sorry for the hurt I caused you.</p>
-                    <p>I made a mistake, and I want to promise you something from the bottom of my heart:</p>
-                    <p class="sorry-reason" style="color:var(--accent-pink);">"I will never watch porn again."</p>
-                    <p style="margin-top:12px;">You are the only one who matters to me. I choose you, always.</p>
+        <!-- PAGE 2 -->
+        <div class="page" id="q2">
+            <div class="q-container">
+                <div class="q-number">Question 2</div>
+                <div class="q-text">Bow, your hair looks really beautiful today. I love it when you leave it open. Do you know how much I love your hair?</div>
+                <div class="q-options">
+                    <button class="q-btn option-a" data-next="q3">Yes, I know</button>
+                    <button class="q-btn option-b" data-next="q3">Tell me more</button>
                 </div>
-                <div class="sorry-buttons">
-                    <button class="sorry-btn accept" id="sorry-accept">I Accept ❤️</button>
-                    <button class="sorry-btn decline" id="sorry-decline">I Need Time</button>
-                </div>
-                <div class="sorry-result" id="sorry-result"></div>
             </div>
         </div>
 
-        <div class="page" id="page-final">
-            <h2 class="final-title">No matter how far you are,</h2>
-            <p class="final-text">my heart still finds its way to you.<br>Thank you for coming into my life.</p>
-            <p style="font-size:1.6rem; font-weight:400; color:var(--text-primary); margin-top:10px;">Love You Bow ❤️</p>
-            <p class="final-sign">— Forever Yours,<br>Yasin</p>
-            <div style="margin-top:20px; font-size:2rem; letter-spacing:8px; animation: float 3s ease-in-out infinite;">✨ 🌙 ✨</div>
+        <!-- PAGE 3 -->
+        <div class="page" id="q3">
+            <div class="q-container">
+                <div class="q-number">Question 3</div>
+                <div class="q-text">I haven't heard your voice in a really long time. I miss the way you talk. Would you like to call me later?</div>
+                <div class="q-options">
+                    <button class="q-btn option-a" data-next="q4">Yes, let's call</button>
+                    <button class="q-btn option-b" data-next="q4">Maybe a little later</button>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- PAGE NAVIGATION -->
-    <div id="page-nav">
-        <button id="prev-page" disabled>← Prev</button>
-        <span class="page-indicator" id="page-indicator">1 / 9</span>
-        <button id="next-page">Next →</button>
-    </div>
-
-    <!-- MUSIC PLAYER -->
-    <div id="music-player">
-        <span class="icon">🎵</span>
-        <div class="info">
-            <span class="title">Our Song</span>
-            <span class="status" id="music-status">Not playing</span>
+        <!-- PAGE 4 -->
+        <div class="page" id="q4">
+            <div class="q-container">
+                <div class="q-number">Question 4</div>
+                <div class="q-text">Your lips are so attractive. Seriously, every time I look at them, I just want to kiss you. Tell me, do you ever think about that too?</div>
+                <div class="q-options">
+                    <button class="q-btn option-a" data-next="q5">Yes, I think about it</button>
+                    <button class="q-btn option-b" data-next="q5">You're making me shy</button>
+                </div>
+            </div>
         </div>
-        <button class="play-btn" id="music-play-btn">▶</button>
-        <input type="file" id="music-file-input" accept="audio/mp3,audio/wav,audio/ogg" />
+
+        <!-- PAGE 5 -->
+        <div class="page" id="q5">
+            <div class="q-container">
+                <div class="q-number">Question 5</div>
+                <div class="q-text">We are so far apart right now, but I feel you so close to my heart. Do you ever feel the same way when you think about me?</div>
+                <div class="q-options">
+                    <button class="q-btn option-a" data-next="album">I feel the same</button>
+                    <button class="q-btn option-b" data-next="album">I want you closer</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 6: PHOTO ALBUM -->
+        <div class="page" id="album">
+            <h2 class="album-title">🌿 Photo Album of My Love</h2>
+            <p style="color:var(--text-secondary); font-weight:300; text-align:center; margin-bottom:16px; font-size:0.9rem;">Tap any frame to change the photo ❤️</p>
+            <div class="album-grid">
+                <div class="album-frame" data-caption="Bow sundoriii">
+                    <img src="YOUR_IMAGE_1_BASE64_HERE" alt="Bow sundoriii" style="width:100%; height:100%; object-fit:cover; border-radius:18px; position:absolute; top:0; left:0;" />
+                    <span class="caption" style="position:relative; z-index:1; background:rgba(255,255,255,0.6); padding:4px 12px; border-radius:20px;">Bow sundoriii</span>
+                </div>
+                <div class="album-frame" data-caption="Pakhi">
+                    <img src="YOUR_IMAGE_2_BASE64_HERE" alt="Pakhi" style="width:100%; height:100%; object-fit:cover; border-radius:18px; position:absolute; top:0; left:0;" />
+                    <span class="caption" style="position:relative; z-index:1; background:rgba(255,255,255,0.6); padding:4px 12px; border-radius:20px;">Pakhi</span>
+                </div>
+                <div class="album-frame" data-caption="bby">
+                    <img src="YOUR_IMAGE_3_BASE64_HERE" alt="bby" style="width:100%; height:100%; object-fit:cover; border-radius:18px; position:absolute; top:0; left:0;" />
+                    <span class="caption" style="position:relative; z-index:1; background:rgba(255,255,255,0.6); padding:4px 12px; border-radius:20px;">bby</span>
+                </div>
+                <div class="album-frame" data-caption="wifey">
+                    <img src="YOUR_IMAGE_4_BASE64_HERE" alt="wifey" style="width:100%; height:100%; object-fit:cover; border-radius:18px; position:absolute; top:0; left:0;" />
+                    <span class="caption" style="position:relative; z-index:1; background:rgba(255,255,255,0.6); padding:4px 12px; border-radius:20px;">wifey</span>
+                </div>
+            </div>
+            <button id="goto-final" style="margin-top:24px; padding:12px 32px; border-radius:60px; border:none; background:linear-gradient(135deg, var(--accent-sky), var(--accent-pink)); color:white; font-size:1rem; cursor:pointer; transition:0.3s; box-shadow:0 4px 20px rgba(126,200,227,0.25);">Go to Final Page →</button>
+        </div>
+
+        <!-- PAGE 7: FINAL -->
+        <div class="page" id="final">
+            <h2 class="final-title">You are my sun, my peace</h2>
+            <p class="final-text">No matter the distance, my heart always finds its way to you.</p>
+            <p class="final-text" style="font-size:1.2rem; font-weight:400; color:var(--text-primary);">I love you, my Bow ❤️</p>
+            <div class="music-wrapper">
+                <span class="icon">🎵</span>
+                <div class="info">
+                    <span class="title">A song for you</span>
+                    <span class="status" id="music-status">Upload your song</span>
+                </div>
+                <button class="play-btn" id="music-play-btn">▶</button>
+                <input type="file" id="music-file-input" accept="audio/mp3,audio/wav,audio/ogg" />
+            </div>
+            <p class="final-sign">— Yasin</p>
+        </div>
+
     </div>
 
     <script>
         (function() {
             'use strict';
 
-            // 1. LOADING SCREEN - Force hide after 1 second, regardless of load event
+            // ---------------------------------------------------------
+            // 1. LOADING SCREEN - Robust Hide (Fixes the stuck bug)
+            // ---------------------------------------------------------
             function hideLoading() {
                 var el = document.getElementById('loading-screen');
                 if (el) el.classList.add('hidden');
             }
-            // Hide on DOM ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', hideLoading);
-            } else {
+            // Try multiple events to ensure it hides
+            if (document.readyState === 'complete') {
                 hideLoading();
+            } else {
+                document.addEventListener('DOMContentLoaded', hideLoading);
+                window.addEventListener('load', hideLoading);
+                // Ultimate fallback: force hide after 1.5 seconds
+                setTimeout(hideLoading, 1500);
             }
-            // Also hide after 1 second max (fallback)
-            setTimeout(hideLoading, 1000);
 
-            // 2. PASSWORD PAGE
+            // ---------------------------------------------------------
+            // 2. PASSWORD - Visible Toggle
+            // ---------------------------------------------------------
             var passPage = document.getElementById('password-page');
             var passInput = document.getElementById('password-input');
+            var togglePass = document.getElementById('toggle-pass');
             var unlockBtn = document.getElementById('unlock-btn');
             var errMsg = document.getElementById('error-msg');
-            var correct = 'love you bby';
+            var correct = 'ami yasiner sundori';
+
+            // Toggle password visibility
+            togglePass.addEventListener('click', function() {
+                var type = passInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passInput.setAttribute('type', type);
+                this.textContent = type === 'password' ? '👁️' : '🙈';
+            });
 
             function handleUnlock() {
                 if (passInput.value.trim().toLowerCase() === correct) {
@@ -516,17 +522,12 @@ life er first love tmi tmke kei last hisebe chai bby .
                     setTimeout(function() { burst.remove(); }, 1200);
 
                     passPage.classList.add('unlocked');
-                    document.getElementById('book-container').style.display = 'flex';
+                    document.getElementById('app-container').style.display = 'flex';
 
-                    // Start features
-                    initParticles();
-                    startTyping();
-                    updateCountdown();
-                    setInterval(updateCountdown, 1000);
-                    observeFinal();
+                    // Load saved data
+                    loadAlbum();
+                    loadMusic();
 
-                    // Show cover
-                    goToPage(0);
                 } else {
                     errMsg.textContent = 'Wrong password ❤️';
                     passInput.value = '';
@@ -539,78 +540,60 @@ life er first love tmi tmke kei last hisebe chai bby .
                 if (e.key === 'Enter') handleUnlock();
             });
 
-            // 3. PAGE TURN LOGIC
-            var pages = document.querySelectorAll('.page');
-            var currentIndex = 0;
-            var totalPages = pages.length;
-            var pageIndicator = document.getElementById('page-indicator');
-            var prevBtn = document.getElementById('prev-page');
-            var nextBtn = document.getElementById('next-page');
+            // ---------------------------------------------------------
+            // 3. AUTO PAGE TURN
+            // ---------------------------------------------------------
+            document.querySelectorAll('.q-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var nextId = this.getAttribute('data-next');
+                    if (nextId) {
+                        goToPage(nextId);
+                    }
+                });
+            });
 
-            function goToPage(index) {
-                if (index < 0 || index >= totalPages) return;
-                pages.forEach(function(p) { p.classList.remove('active', 'prev'); });
-                pages[index].classList.add('active');
-                if (index > 0) {
-                    pages[index - 1].classList.add('prev');
+            // ---------------------------------------------------------
+            // 4. PAGE NAVIGATION
+            // ---------------------------------------------------------
+            var pages = document.querySelectorAll('.page');
+            var pageMap = {};
+            pages.forEach(function(p) { pageMap[p.id] = p; });
+
+            function goToPage(id) {
+                var target = pageMap[id];
+                if (!target) return;
+                pages.forEach(function(p) {
+                    p.classList.remove('active', 'prev');
+                });
+                target.classList.add('active');
+                var prev = target.previousElementSibling;
+                if (prev && prev.classList.contains('page')) {
+                    prev.classList.add('prev');
                 }
-                currentIndex = index;
-                pageIndicator.textContent = (currentIndex + 1) + ' / ' + totalPages;
-                prevBtn.disabled = (currentIndex === 0);
-                nextBtn.disabled = (currentIndex === totalPages - 1);
+                target.scrollTop = 0;
             }
 
-            prevBtn.addEventListener('click', function() {
-                if (currentIndex > 0) goToPage(currentIndex - 1);
-            });
-            nextBtn.addEventListener('click', function() {
-                if (currentIndex < totalPages - 1) goToPage(currentIndex + 1);
+            document.getElementById('goto-final').addEventListener('click', function() {
+                goToPage('final');
             });
 
-            document.getElementById('open-book-btn').addEventListener('click', function() {
-                goToPage(1);
-            });
+            // ---------------------------------------------------------
+            // 5. ALBUM (localStorage)
+            // ---------------------------------------------------------
+            var albumFrames = document.querySelectorAll('.album-frame');
 
-            // Swipe support
-            var touchStartX = 0;
-            var touchEndX = 0;
-            document.addEventListener('touchstart', function(e) {
-                touchStartX = e.changedTouches[0].screenX;
-            });
-            document.addEventListener('touchend', function(e) {
-                touchEndX = e.changedTouches[0].screenX;
-                var diff = touchStartX - touchEndX;
-                if (Math.abs(diff) > 50) {
-                    if (diff > 0 && currentIndex < totalPages - 1) {
-                        goToPage(currentIndex + 1);
-                    } else if (diff < 0 && currentIndex > 0) {
-                        goToPage(currentIndex - 1);
+            function loadAlbum() {
+                albumFrames.forEach(function(frame, index) {
+                    var key = 'heart_garden_photo_' + index;
+                    var saved = localStorage.getItem(key);
+                    if (saved) {
+                        frame.innerHTML = '<img src="' + saved + '" alt="Saved photo" />';
+                        frame.style.border = 'none';
                     }
-                }
-            });
+                });
+            }
 
-            // 4. CONFUSION PAGE
-            document.getElementById('confusion-ki').addEventListener('click', function() {
-                document.getElementById('confusion-result').classList.add('show');
-                if (navigator.vibrate) navigator.vibrate(50);
-            });
-            document.getElementById('confusion-ignore').addEventListener('click', function() {
-                document.getElementById('confusion-result').classList.add('show');
-                if (navigator.vibrate) navigator.vibrate(20);
-            });
-
-            // 5. SORRY BUTTONS
-            document.getElementById('sorry-accept').addEventListener('click', function() {
-                document.getElementById('sorry-result').textContent = '❤️ Thank you, Bow. I promise to be better for you. Forever yours.';
-                if (navigator.vibrate) navigator.vibrate(100);
-            });
-            document.getElementById('sorry-decline').addEventListener('click', function() {
-                document.getElementById('sorry-result').textContent = '💔 I understand. I will wait for you, however long it takes.';
-                if (navigator.vibrate) navigator.vibrate(50);
-            });
-
-            // 6. GALLERY UPLOAD
-            document.querySelectorAll('.photo-frame').forEach(function(frame) {
+            albumFrames.forEach(function(frame) {
                 frame.addEventListener('click', function() {
                     var input = document.createElement('input');
                     input.type = 'file';
@@ -620,157 +603,103 @@ life er first love tmi tmke kei last hisebe chai bby .
                         if (!file) return;
                         var reader = new FileReader();
                         reader.onload = function(ev) {
-                            this.innerHTML = '<img src="'+ev.target.result+'" alt="Uploaded photo" />';
-                            this.style.border = 'none';
-                        }.bind(this);
+                            var dataUrl = ev.target.result;
+                            var index = Array.from(albumFrames).indexOf(frame);
+                            localStorage.setItem('heart_garden_photo_' + index, dataUrl);
+                            frame.innerHTML = '<img src="' + dataUrl + '" alt="Uploaded photo" />';
+                            frame.style.border = 'none';
+                        };
                         reader.readAsDataURL(file);
-                    }.bind(this);
+                    };
                     input.click();
                 });
             });
 
-            // 7. MUSIC PLAYER
-            var musicPlayer = document.getElementById('music-player');
+            // ---------------------------------------------------------
+            // 6. MUSIC (localStorage)
+            // ---------------------------------------------------------
             var musicPlayBtn = document.getElementById('music-play-btn');
             var musicStatus = document.getElementById('music-status');
             var musicFileInput = document.getElementById('music-file-input');
             var audio = null;
             var isPlaying = false;
 
-            musicPlayer.addEventListener('click', function(e) {
-                if (e.target.closest('.play-btn') || e.target.closest('input')) return;
-                musicFileInput.click();
-            });
+            function loadMusic() {
+                var savedUrl = localStorage.getItem('heart_garden_song');
+                if (savedUrl) {
+                    audio = new Audio(savedUrl);
+                    musicStatus.textContent = 'Saved song loaded';
+                    musicPlayBtn.textContent = '▶';
+                    audio.addEventListener('ended', function() {
+                        isPlaying = false;
+                        musicPlayBtn.textContent = '▶';
+                        musicStatus.textContent = 'Saved song loaded';
+                    });
+                }
+            }
+
             musicFileInput.addEventListener('change', function(e) {
                 var file = e.target.files[0];
                 if (!file) return;
-                if (audio) { audio.pause(); audio = null; isPlaying = false; musicPlayBtn.textContent = '▶'; musicStatus.textContent = 'Not playing'; }
+                if (audio) {
+                    audio.pause();
+                    audio = null;
+                    isPlaying = false;
+                    musicPlayBtn.textContent = '▶';
+                }
                 var url = URL.createObjectURL(file);
+                localStorage.setItem('heart_garden_song', url);
                 audio = new Audio(url);
-                audio.addEventListener('ended', function() { isPlaying = false; musicPlayBtn.textContent = '▶'; musicStatus.textContent = 'Ended'; });
+                audio.addEventListener('ended', function() {
+                    isPlaying = false;
+                    musicPlayBtn.textContent = '▶';
+                    musicStatus.textContent = 'Saved song loaded';
+                });
                 audio.play();
                 isPlaying = true;
                 musicPlayBtn.textContent = '⏸';
                 musicStatus.textContent = '🎵 Playing: ' + file.name.replace(/\.[^.]+$/, '');
             });
+
             musicPlayBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
-                if (!audio) { musicFileInput.click(); return; }
-                if (isPlaying) { audio.pause(); isPlaying = false; musicPlayBtn.textContent = '▶'; musicStatus.textContent = 'Paused'; }
-                else { audio.play(); isPlaying = true; musicPlayBtn.textContent = '⏸'; musicStatus.textContent = '▶ Playing'; }
-            });
-
-            // 8. PARTICLES (lightweight)
-            var pAnim;
-            function initParticles() {
-                var canvas = document.createElement('canvas');
-                canvas.id = 'particles-canvas';
-                canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
-                document.body.prepend(canvas);
-                var ctx = canvas.getContext('2d');
-                var w, h;
-                function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
-                resize();
-                window.addEventListener('resize', resize);
-                var COUNT = 25;
-                var p = [];
-                for (var i = 0; i < COUNT; i++) {
-                    p.push({
-                        x: Math.random() * w,
-                        y: Math.random() * h,
-                        s: 4 + Math.random() * 8,
-                        dx: (Math.random() - 0.5) * 0.2,
-                        dy: (Math.random() - 0.5) * 0.2 - 0.1,
-                        t: Math.random() > 0.5 ? 'star' : 'heart',
-                        r: Math.random() * Math.PI * 2,
-                        rs: (Math.random() - 0.5) * 0.01
-                    });
-                }
-                function animate() {
-                    ctx.clearRect(0, 0, w, h);
-                    p.forEach(function(p) {
-                        p.x += p.dx;
-                        p.y += p.dy;
-                        p.r += p.rs;
-                        if (p.x < -20 || p.x > w + 20 || p.y < -20 || p.y > h + 20) {
-                            p.x = Math.random() * w;
-                            p.y = -20;
-                        }
-                        ctx.save();
-                        ctx.globalAlpha = 0.3 + Math.random() * 0.2;
-                        ctx.translate(p.x, p.y);
-                        ctx.rotate(p.r);
-                        if (p.t === 'heart') {
-                            ctx.font = p.s + 'px sans-serif';
-                            ctx.fillStyle = '#F5A0B5';
-                            ctx.fillText('💗', 0, 0);
-                        } else {
-                            ctx.fillStyle = '#7EC8E3';
-                            ctx.beginPath();
-                            for (var i = 0; i < 10; i++) {
-                                var r = i % 2 === 0 ? p.s / 2 : p.s / 5;
-                                var a = i * Math.PI / 5 - Math.PI / 2;
-                                if (i === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
-                                else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
-                            }
-                            ctx.closePath();
-                            ctx.fill();
-                        }
-                        ctx.restore();
-                    });
-                    pAnim = requestAnimationFrame(animate);
-                }
-                animate();
-            }
-
-            // 9. COUNTDOWN
-            function updateCountdown() {
-                var target = new Date('2027-01-01T00:00:00');
-                var now = new Date();
-                var diff = target - now;
-                if (diff <= 0) {
-                    document.getElementById('cd-days').textContent = '00';
-                    document.getElementById('cd-hours').textContent = '00';
-                    document.getElementById('cd-minutes').textContent = '00';
-                    document.getElementById('cd-seconds').textContent = '00';
+                if (!audio) {
+                    musicFileInput.click();
                     return;
                 }
-                document.getElementById('cd-days').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-                document.getElementById('cd-hours').textContent = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-                document.getElementById('cd-minutes').textContent = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-                document.getElementById('cd-seconds').textContent = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
-            }
+                if (isPlaying) {
+                    audio.pause();
+                    isPlaying = false;
+                    musicPlayBtn.textContent = '▶';
+                    musicStatus.textContent = 'Paused';
+                } else {
+                    audio.play();
+                    isPlaying = true;
+                    musicPlayBtn.textContent = '⏸';
+                    musicStatus.textContent = '▶ Playing';
+                }
+            });
 
-            // 10. TYPING (placeholder)
-            function startTyping() { /* not needed */ }
+            document.querySelector('.music-wrapper').addEventListener('click', function(e) {
+                if (e.target.closest('.play-btn') || e.target.closest('input')) return;
+                musicFileInput.click();
+            });
 
-            // 11. CONFETTI ON FINAL
-            function observeFinal() {
-                var finalPage = document.getElementById('page-final');
-                var obs = new IntersectionObserver(function(entries) {
-                    if (entries[0].isIntersecting) {
-                        var burst = document.createElement('div');
-                        burst.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;background:radial-gradient(circle, rgba(245,160,181,0.4) 0%, transparent 70%);animation:burstFade 1.5s ease forwards;';
-                        document.body.appendChild(burst);
-                        setTimeout(function() { burst.remove(); }, 1600);
-                    }
-                }, { threshold: 0.5 });
-                obs.observe(finalPage);
-            }
-
-            // 12. PERSISTENCE
+            // ---------------------------------------------------------
+            // 7. PERSISTENCE
+            // ---------------------------------------------------------
             if (sessionStorage.getItem('unlocked') === 'true') {
                 passPage.classList.add('unlocked');
-                document.getElementById('book-container').style.display = 'flex';
-                initParticles();
-                startTyping();
-                updateCountdown();
-                setInterval(updateCountdown, 1000);
-                observeFinal();
-                goToPage(0);
+                document.getElementById('app-container').style.display = 'flex';
+                loadAlbum();
+                loadMusic();
+                var first = document.querySelector('.page.active');
+                if (!first) {
+                    var q1 = document.getElementById('q1');
+                    if (q1) q1.classList.add('active');
+                }
             }
 
-            // Override unlock to set session flag
             var originalUnlock = handleUnlock;
             handleUnlock = function() {
                 var entered = passInput.value.trim().toLowerCase();
@@ -790,9 +719,6 @@ life er first love tmi tmke kei last hisebe chai bby .
             passInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') handleUnlock();
             });
-
-            // Initially hide book container
-            document.getElementById('book-container').style.display = 'none';
 
         })();
     </script>
